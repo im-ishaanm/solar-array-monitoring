@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 
 function StatusCard({ data }) {
   const [voltage, setVoltage] = useState(data.voltage);
-  // const [current, setCurrent] = useState(data.current);
+  const [current, setCurrent] = useState(data.current);
+  const [lux, setLux] = useState(data.lux);
+
   const [datetime, setDateTime] = useState(data.date_time);
 
   const [date, setDate] = useState("");
@@ -13,15 +15,19 @@ function StatusCard({ data }) {
   const [status, setStatus] = useState("Unknown");
 
   useEffect(() => {
-    console.log("time updated", data.date_time);
-    formatDateTime();
+    console.log("time changed");
+    updateData();
   }, [data.date_time]);
 
   useEffect(() => {
     console.log("voltage changed");
-    formatDateTime();
     updateData();
-  }, [data.voltage]);
+  }, [data.voltage, data.lux, data.current]);
+
+  useEffect(() => {
+    console.log("state date changed");
+    formatDateTime();
+  }, [datetime]);
 
   useEffect(() => {
     console.log("state voltage changed");
@@ -29,6 +35,8 @@ function StatusCard({ data }) {
   }, [voltage]);
 
   const updateData = () => {
+    setCurrent(data.current);
+    setLux(data.lux);
     setVoltage(data.voltage);
     setDateTime(data.date_time);
   };
@@ -45,7 +53,7 @@ function StatusCard({ data }) {
   const updateStatus = () => {
     console.log("Changing status", voltage);
     const volt = parseFloat(voltage);
-    if (volt < 4) {
+    if (volt < 5) {
       setStatus("Non-Optimal");
     } else {
       setStatus("Optimal");
@@ -55,7 +63,7 @@ function StatusCard({ data }) {
   return (
     <div className="StatusCard">
       <h2>
-        Status{" "}
+        Status:{" "}
         <span className={status === "Optimal" ? "status-good" : "status-bad"}>
           {status}
         </span>
@@ -64,9 +72,18 @@ function StatusCard({ data }) {
         Last updated: {time} | {date}
       </p>
       <hr />
-      <p>Voltage: {voltage} V</p>
-      {/* <p>Current: </p>
-      <p>Light Level: </p> */}
+      <div className="solar-panel-status">
+        <h3>Solar Panels</h3>
+        <p>Voltage: {voltage} V</p>
+        <p>Current: {current} A</p>
+        <p>Light Level: {lux} lux</p>
+      </div>
+      <div className="battery-status">
+        <h3>Energy Storage</h3>
+        <p>Voltage: </p>
+        <p>Current: </p>
+      </div>
+      <hr />
     </div>
   );
 }

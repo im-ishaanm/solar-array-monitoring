@@ -9,9 +9,9 @@ function LogItem({ data }) {
       <h3 className="item-bar">
         <span className="item-bar-date">
           {" "}
-          {">>"} {data.date_time} |
+          {">>"} {data.date_time} {"  "} |
         </span>{" "}
-        {data.voltage} V
+        {data.voltage} V, {data.current} A, {data.lux} lux
       </h3>
     </div>
   );
