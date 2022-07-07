@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+
+.App {
+  margin-left: 12px;
+  font-family: "Fira Sans", sans-serif;
+}
+
+.grid-wrapper {
+  height: 50%;
+  display: grid;
+  grid-template-columns: 30% 45%;
+  grid-column-gap: 1em;
+}

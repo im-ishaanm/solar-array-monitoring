@@ -1,0 +1,14 @@
+
+date & time
+voltage -> status optimal or not
+current -> to calculate power
+power
+light level -> to check for weather
+            -> if power is less and light level is high, internal error
+               or panels are dirty.
+
+
+battery_voltage
+battery_current
+time_of_charge
+time_of_discharge

@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+
+.Card {
+  box-shadow: 1px 1px 4px #999;
+  display: flex;
+  justify-content: space-evenly;
+  width: 60%;
+  height: 30%;
+  margin-top: 12px;
+  font-family: "Fira Sans", sans-serif;
+}
+
+.MainCard {
+  box-shadow: 1px 1px 4px #333;
+  display: flex;
+  justify-content: space-evenly;
+  width: 60%;
+  height: 30%;
+  padding: 20px 0;
+  margin-top: 12px;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 20px;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier();
+}
+
+.Card span {
+  font-weight: bold;
+  color: darkblue;
+}
+
+.MainCard span {
+  font-weight: bold;
+  color: darkslateblue;
+}
+
+.MainCard:hover {
+  box-shadow: 3px 3px 6px #555;
+}
+
+.StatusCard {
+  background: #eee;
+  padding: 1em;
+  box-shadow: 0px 0px 4px #777;
+  border-radius: 12px;
+}
+
+.StatusCard p {
+  font-size: 1.2em;
+}
+
+.LogCard {
+  background: #eee;
+  padding: 1em;
+  box-shadow: 0px 0px 4px #777;
+  border-radius: 12px;
+}
+
+.LogItem h3 {
+  font-size: 1em;
+}
+
+.status-good {
+  color: green;
+}
+
+.status-bad {
+  color: darkred;
+}
+
+.log-list {
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 200px;
+}
+
+.item-bar {
+  border-bottom: 1px solid #999;
+  padding-bottom: 12px;
+}
+
+.item-bar-date {
+  color: #777;
+}
