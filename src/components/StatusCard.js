@@ -6,17 +6,50 @@ import { useState, useEffect } from "react";
 function StatusCard({ data }) {
   const [voltage, setVoltage] = useState(data.solar_panel_voltage);
   const [current, setCurrent] = useState(data.solar_panel_current);
-  const [lux, setLux] = useState(data.lux);
   const [power, setPower] = useState(data.solar_panel_power);
   const [batteryCurrent, setBatteryCurrent] = useState(data.battery_current);
   const [batteryVoltage, setBatteryVoltage] = useState(data.battery_voltage);
   const [batteryPower, setbatteryPower] = useState(data.battery_power);
 
+  const [description, setDescription] = useState("");
+  const [environment, setEnvironment] = useState("Unrecognized");
+  const [environmentFactor, setEnvironmentFactor] = useState(0);
+  const [lux, setLux] = useState(data.lux);
   const [datetime, setDateTime] = useState(data.date_time);
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [status, setStatus] = useState("Unknown");
+
+  useEffect(() => {
+    if (status === "Optimal" && lux >= 300) {
+      setDescription(
+        "Panels are running at optimal condition and is recieving adequate light level."
+      );
+    } else if (status === "Non-Optimal" && lux >= 250) {
+      setDescription(
+        "Panels are non-optimal despite adequate lighting. Check up required."
+      );
+    } else if (status === "Non-Optimal" && lux < 299) {
+      setDescription(
+        "Panels are non-optimal due to inadequate level of lighting"
+      );
+    } else if (status === "Optimal" && lux < 299) {
+      setDescription(
+        "??? Panels are running at optimal condition but is recieving inadequate lighting."
+      );
+    }
+  }, [environment]);
+
+  useEffect(() => {
+    if (lux <= 100) {
+      setEnvironment("Low Light Level");
+    } else if (lux >= 101 && lux <= 299) {
+      setEnvironment("Medium Light Level");
+    } else if (lux >= 300) {
+      setEnvironment("Adequate Light Level");
+    }
+  }, [lux]);
 
   useEffect(() => {
     updateData();
@@ -83,11 +116,14 @@ function StatusCard({ data }) {
       <h2>
         Status:{" "}
         <span className={status === "Optimal" ? "status-good" : "status-bad"}>
-          {status}
+          {status} | <span style={{ color: "orange" }}>{environment}</span>
         </span>
       </h2>
       <p id="updated">
         Last updated: {time} | {date}
+      </p>
+      <p style={{ fontSize: "1em", marginBottom: "-4px" }} id="updated">
+        {description}
       </p>
       <hr />
       <div className="data-table">

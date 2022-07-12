@@ -6,6 +6,7 @@ import StatusCard from "./components/StatusCard";
 import LogCard from "./components/LogCard";
 import SolarPanelLineChart from "./components/SolarPanelLineChart";
 import BatteryLineChart from "./components/BatteryLineChart";
+import OverviewData from "./components/OverviewData";
 
 import { db } from "./util/firebase";
 
@@ -37,6 +38,7 @@ function App() {
       datasets: [
         {
           label: "Voltage (V)",
+          tension: 0.1,
           data: solardata_copy.map((data) => data.battery_voltage),
           borderColor: "rgb(75, 192, 192)",
           backgroundColor: "rgb(75, 192, 192)",
@@ -157,14 +159,24 @@ function App() {
       </div>
 
       <div className="grid-wrapper">
-        <div className="chart-container-1">
+        <div className="chart-container chart-container-0">
+          <h2 style={{ padding: "0", margin: "0", marginTop: "12px" }}>
+            Overview
+          </h2>
+          {solardata.length > 0 ? (
+            <OverviewData data={solardata} />
+          ) : (
+            <p>Unable to load chart</p>
+          )}
+        </div>
+        <div className="chart-container chart-container-1">
           {solardata.length > 0 ? (
             <SolarPanelLineChart chartData={solarLineData} />
           ) : (
             <p>Unable to load chart</p>
           )}
         </div>
-        <div className="chart-container-2">
+        <div className="chart-container chart-container-2">
           {solardata.length > 0 ? (
             <BatteryLineChart chartData={batteryLineData} />
           ) : (
