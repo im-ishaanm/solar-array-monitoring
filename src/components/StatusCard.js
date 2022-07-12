@@ -4,9 +4,13 @@ import "../css/App.css";
 import { useState, useEffect } from "react";
 
 function StatusCard({ data }) {
-  const [voltage, setVoltage] = useState(data.voltage);
-  const [current, setCurrent] = useState(data.current);
+  const [voltage, setVoltage] = useState(data.solar_panel_voltage);
+  const [current, setCurrent] = useState(data.solar_panel_current);
   const [lux, setLux] = useState(data.lux);
+  const [power, setPower] = useState(data.solar_panel_power);
+  const [batteryCurrent, setBatteryCurrent] = useState(data.battery_current);
+  const [batteryVoltage, setBatteryVoltage] = useState(data.battery_voltage);
+  const [batteryPower, setbatteryPower] = useState(data.battery_power);
 
   const [datetime, setDateTime] = useState(data.date_time);
 
@@ -15,43 +19,57 @@ function StatusCard({ data }) {
   const [status, setStatus] = useState("Unknown");
 
   useEffect(() => {
-    console.log("time changed");
     updateData();
   }, [data.date_time]);
 
   useEffect(() => {
-    console.log("voltage changed");
+    // console.log("data changed");
     updateData();
-  }, [data.voltage, data.lux, data.current]);
+  }, [
+    data.solar_panel_voltage,
+    data.lux,
+    data.solar_panel_current,
+    data.solar_panel_power,
+    data.battery_power,
+  ]);
 
   useEffect(() => {
-    console.log("state date changed");
+    // console.log("state date changed");
     formatDateTime();
   }, [datetime]);
 
   useEffect(() => {
-    console.log("state voltage changed");
+    //console.log("state voltage changed");
     updateStatus();
   }, [voltage]);
 
   const updateData = () => {
-    setCurrent(data.current);
+    setCurrent(data.solar_panel_current);
     setLux(data.lux);
-    setVoltage(data.voltage);
+    setVoltage(data.solar_panel_voltage);
     setDateTime(data.date_time);
+    setPower(data.solar_panel_power);
+    setBatteryCurrent(data.battery_current);
+    setBatteryVoltage(data.battery_voltage);
+    setbatteryPower(data.battery_power);
   };
 
   const formatDateTime = () => {
     if (datetime) {
-      const time_data = datetime.split(" ")[1];
-      const date_data = datetime.split(" ")[0].split("-").reverse().join("-");
-      setDate(date_data);
-      setTime(time_data);
+      const datetime_array = datetime.split(" ");
+      //console.log(datetime_array);
+      const date_string =
+        datetime_array[0] + "-" + datetime_array[1] + "-" + datetime_array[2];
+      const time_string = datetime_array[3];
+      setDate(date_string);
+      setTime(time_string);
+      //setDate(date_data);
+      //setTime(time_data);
     }
   };
 
   const updateStatus = () => {
-    console.log("Changing status", voltage);
+    //console.log("Changing status", voltage);
     const volt = parseFloat(voltage);
     if (volt < 5) {
       setStatus("Non-Optimal");
@@ -72,16 +90,45 @@ function StatusCard({ data }) {
         Last updated: {time} | {date}
       </p>
       <hr />
-      <div className="solar-panel-status">
-        <h3>Solar Panels</h3>
-        <p>Voltage: {voltage} V</p>
-        <p>Current: {current} A</p>
-        <p>Light Level: {lux} lux</p>
-      </div>
-      <div className="battery-status">
-        <h3>Energy Storage</h3>
-        <p>Voltage: </p>
-        <p>Current: </p>
+      <div className="data-table">
+        <div className="solar-panel-status">
+          <h3 className="data-title">Solar Panels</h3>
+          <div className="data-value-container">
+            <div className="data-value">
+              <h4>Voltage</h4>
+              <p>{voltage} V</p>
+            </div>
+            <div className="data-value">
+              <h4>Current</h4>
+              <p>{current} A</p>
+            </div>
+            <div className="data-value">
+              <h4>Power</h4>
+              <p>{power} W</p>
+            </div>
+            <div className="data-value">
+              <h4>Light Level</h4>
+              <p>{lux} lux</p>
+            </div>
+          </div>
+        </div>
+        <div className="battery-status">
+          <h3 className="data-title">Energy Storage</h3>
+          <div className="data-value-container">
+            <div className="data-value">
+              <h4>Voltage</h4>
+              <p>{batteryVoltage} V</p>
+            </div>
+            <div className="data-value">
+              <h4>Current</h4>
+              <p>{batteryCurrent} A</p>
+            </div>
+            <div className="data-value">
+              <h4>Power</h4>
+              <p>{batteryPower} W</p>
+            </div>
+          </div>
+        </div>
       </div>
       <hr />
     </div>
