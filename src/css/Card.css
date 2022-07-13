@@ -57,9 +57,11 @@ hr {
   font-weight: lighter;
   text-transform: uppercase;
   margin-bottom: -18px;
+  margin-left: 40px;
 }
 
 .data-value {
+  background: #ddd;
   padding-left: 20px;
   height: auto;
   margin-bottom: -8px;
@@ -80,8 +82,7 @@ hr {
 
 .data-table {
   display: flex;
-  align-items: top;
-  justify-content: space-around;
+  align-items: stretch;
 }
 
 .LogCard {

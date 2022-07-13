@@ -141,11 +141,17 @@ function OverviewData({ data }) {
           </p>
         </div>
         <div className="data-value">
-          <h4 style={{ marginBottom: "-28px" }}>Average solar panel power</h4>
+          <h4 style={{ marginBottom: "-28px" }}>
+            Average Power -{" "}
+            <span style={{ fontWeight: "bold" }}>Solar Panels</span>
+          </h4>
           <p style={{ fontWeight: "bolder" }}>{solarPowerAvg.toFixed(2)} W</p>
         </div>
         <div className="data-value">
-          <h4 style={{ marginBottom: "-28px" }}>Average battery power</h4>
+          <h4 style={{ marginBottom: "-28px" }}>
+            Average Power -{" "}
+            <span style={{ fontWeight: "bold" }}>Energy Storage</span>
+          </h4>
           <p style={{ fontWeight: "bolder" }}>{batteryPowerAvg.toFixed(2)} W</p>
         </div>
       </div>

@@ -8,7 +8,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 function SolarPanelLineChart({ chartData }) {
   return (
     <div className="SolarPanelLineChart">
-      <p style={{ fontSize: "24px", marginLeft: "24px", marginBottom: "-8px" }}>
+      <p style={{ fontSize: "24px", marginLeft: "24px", marginBottom: "12px" }}>
         Solar Panel
       </p>
       <Line data={chartData} />
