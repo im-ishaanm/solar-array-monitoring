@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 function LogItem({ data }) {
   const [datetime, setDateTime] = useState("Fetching date/time...");
+  const [highlighted, setHighlighted] = useState(false);
 
   useEffect(() => {
     const datetime_array = data.date_time.split(" ");
@@ -19,8 +20,18 @@ function LogItem({ data }) {
     setDateTime(datetime_string);
   }, [data]);
 
+  const handleHighlight = () => {
+    setHighlighted(!highlighted);
+  };
+
   return (
-    <div className="LogItem">
+    <div
+      style={{
+        background: highlighted ? "#ccc" : "#eee",
+      }}
+      onClick={() => handleHighlight()}
+      className="LogItem"
+    >
       <h3 className="item-bar">
         <span className="item-bar-date">{datetime}</span>
         <br />

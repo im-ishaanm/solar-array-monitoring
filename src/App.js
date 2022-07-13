@@ -98,7 +98,7 @@ function App() {
         " " +
         d.getFullYear() +
         " " +
-        d.toLocaleTimeString().split(" ")[0];
+        d.toLocaleTimeString("en-US", { hour12: false }).split(" ")[0];
       const data_doc = {
         solar_panel_voltage: Math.random() * 30,
         solar_panel_current: Math.random(),

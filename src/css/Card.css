@@ -60,7 +60,12 @@ hr {
 }
 
 .data-value {
-  margin-bottom: -16px;
+  padding-left: 20px;
+  height: auto;
+  margin-bottom: -8px;
+  margin-left: 40px;
+  width: 300px;
+  border-right: 4px solid lightskyblue;
 }
 
 .data-value h4 {
@@ -90,6 +95,10 @@ hr {
   font-size: 1em;
 }
 
+.LogItem:hover {
+  cursor: pointer;
+}
+
 .status-good {
   color: green;
 }
@@ -110,7 +119,8 @@ hr {
 
 .item-bar {
   border-bottom: 1px solid #999;
-  padding-bottom: 12px;
+  padding: 12px 8px 12px 16px;
+  margin: 0;
 }
 
 .item-bar-date {
