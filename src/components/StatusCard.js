@@ -13,7 +13,6 @@ function StatusCard({ data }) {
 
   const [description, setDescription] = useState("");
   const [environment, setEnvironment] = useState("Unrecognized");
-  const [environmentFactor, setEnvironmentFactor] = useState(0);
   const [lux, setLux] = useState(data.lux);
   const [datetime, setDateTime] = useState(data.date_time);
 
@@ -38,8 +37,9 @@ function StatusCard({ data }) {
       setDescription(
         "??? Panels are running at optimal condition but is recieving inadequate lighting."
       );
+      console.log("Changing description to: ", description, lux, status);
     }
-  }, [environment]);
+  }, [power, lux, status]);
 
   useEffect(() => {
     if (lux <= 100) {
@@ -103,8 +103,8 @@ function StatusCard({ data }) {
 
   const updateStatus = () => {
     //console.log("Changing status", voltage);
-    const volt = parseFloat(voltage);
-    if (volt < 5) {
+    const pow = parseFloat(power);
+    if (pow < 5) {
       setStatus("Non-Optimal");
     } else {
       setStatus("Optimal");

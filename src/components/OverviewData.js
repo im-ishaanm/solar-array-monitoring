@@ -19,14 +19,14 @@ function OverviewData({ data }) {
   });
 
   useEffect(() => {
-    console.log("Rendered overview with ", data);
+    // console.log("Rendered overview with ", data);
     setMaxPower(Math.max(...data.map((o) => o.solar_panel_power)));
     setMaxBatteryPower(Math.max(...data.map((o) => o.battery_power)));
 
     if (data.length > 1) {
       let currVoltage = data[0].battery_power;
       let prevVoltage = data[1].battery_power;
-      console.log(prevVoltage, currVoltage);
+      // console.log(prevVoltage, currVoltage);
       if (currVoltage - prevVoltage < 0) {
         setBatteryMode("Discharging");
       } else {
@@ -39,7 +39,7 @@ function OverviewData({ data }) {
         batterySum += parseFloat(o.battery_power);
       });
 
-      console.log("Total Powers: ", solarSum, batterySum);
+      // console.log("Total Powers: ", solarSum, batterySum);
 
       setDonutData({
         labels: [

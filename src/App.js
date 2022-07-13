@@ -1,4 +1,4 @@
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, push } from "firebase/database";
 import { useEffect, useState } from "react";
 import "./css/App.css";
 
@@ -45,12 +45,14 @@ function App() {
         },
         {
           label: "Current (A)",
+          tension: 0.1,
           data: solardata_copy.map((data) => data.battery_current),
           borderColor: "rgb(192, 75, 192)",
           backgroundColor: "rgb(192, 75, 192)",
         },
         {
           label: "Power (W)",
+          tension: 0.1,
           data: solardata_copy.map((data) => data.battery_power),
           borderColor: "rgb(192, 192, 75)",
           backgroundColor: "rgb(192, 192, 75)",
@@ -63,18 +65,21 @@ function App() {
       datasets: [
         {
           label: "Voltage (V)",
+          tension: 0.1,
           data: solardata_copy.map((data) => data.solar_panel_voltage),
           borderColor: "rgb(75, 192, 192)",
           backgroundColor: "rgb(75, 192, 192)",
         },
         {
           label: "Current (A)",
+          tension: 0.1,
           data: solardata_copy.map((data) => data.solar_panel_current),
           borderColor: "rgb(192, 75, 192)",
           backgroundColor: "rgb(192, 75, 192)",
         },
         {
           label: "Power (W)",
+          tension: 0.1,
           data: solardata_copy.map((data) => data.solar_panel_power),
           borderColor: "rgb(192, 192, 75)",
           backgroundColor: "rgb(192, 192, 75)",
@@ -82,6 +87,31 @@ function App() {
       ],
     });
   }, [solardata, nthElement]);
+
+  const handleClick = () => {
+    const setData = async () => {
+      let d = new Date();
+      let date_time =
+        d.getDate() +
+        " " +
+        String(d.getMonth() + 1) +
+        " " +
+        d.getFullYear() +
+        " " +
+        d.toLocaleTimeString().split(" ")[0];
+      const data_doc = {
+        solar_panel_voltage: Math.random() * 30,
+        solar_panel_current: Math.random(),
+        battery_voltage: Math.random() * 15,
+        battery_current: Math.random(),
+        lux: Math.random() * 500,
+        date_time,
+      };
+      push(ref(db, "test"), data_doc);
+      console.log("Data added");
+    };
+    setData();
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -97,10 +127,14 @@ function App() {
           });
           console.log("FETCHED: ", sorted_data);
 
-          const data = sorted_data.reverse();
+          let data = sorted_data.reverse();
           // if (data[sorted_data.length - 1].current < 0) {
           //   let popped = sorted_data.pop();
           // }
+
+          data = data.filter(
+            (item) => item.solar_panel_current > 0 && item.battery_current > 0
+          );
 
           setSolarData(
             data.map((doc) => ({
@@ -148,6 +182,7 @@ function App() {
     <div className="App">
       <div className="navbar">
         <h1 className="title-header">Dashboard</h1>
+        <button onClick={() => handleClick()}>Add Data</button>
         <div className="sampling-selector">
           <label>Sampling Rate</label>
           <select value={samplingValue} onChange={handleSamplingChange}>
