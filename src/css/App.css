@@ -52,7 +52,7 @@
   display: flex;
   align-items: top;
   justify-content: space-between;
-  width: 50%;
+  width: 53%;
 }
 
 .donut-chart {
@@ -75,4 +75,16 @@
   padding-left: 20px;
   width: auto;
   margin-right: -20px;
+}
+
+/* 1440px */
+
+@media screen and (max-width: 1450px) {
+  .chart-container-0 {
+    grid-column-end: 1;
+  }
+  .overview-values {
+    overflow: hidden;
+    overflow-x: scroll;
+  }
 }

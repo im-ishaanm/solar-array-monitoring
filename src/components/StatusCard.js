@@ -13,6 +13,7 @@ function StatusCard({ data }) {
 
   const [description, setDescription] = useState("");
   const [environment, setEnvironment] = useState("Unrecognized");
+  const [environmentColor, setEnvironmentColor] = useState("black");
   const [lux, setLux] = useState(data.lux);
   const [datetime, setDateTime] = useState(data.date_time);
 
@@ -25,29 +26,38 @@ function StatusCard({ data }) {
       setDescription(
         "Panels are running at optimal condition and is recieving adequate light level."
       );
-    } else if (status === "Non-Optimal" && lux >= 250) {
+    } else if (status === "Non-Optimal" && lux >= 300) {
       setDescription(
-        "Panels are non-optimal despite adequate lighting. Check up required."
+        "ERROR: Panels are non-optimal despite adequate lighting. Panel check-up required."
       );
-    } else if (status === "Non-Optimal" && lux < 299) {
+    } else if (status === "Non-Optimal" && lux < 300) {
       setDescription(
-        "Panels are non-optimal due to inadequate level of lighting"
+        "Panels are non-optimal due to inadequate level of lighting."
       );
-    } else if (status === "Optimal" && lux < 299) {
+    } else if (status === "Optimal" && lux < 300) {
       setDescription(
-        "??? Panels are running at optimal condition but is recieving inadequate lighting."
+        "ERROR: Panels are running at optimal condition but is recieving inadequate lighting. Light sensor check-up required."
       );
       console.log("Changing description to: ", description, lux, status);
     }
-  }, [power, lux, status]);
+  }, [environment, voltage]);
 
   useEffect(() => {
-    if (lux <= 100) {
-      setEnvironment("Low Light Level");
-    } else if (lux >= 101 && lux <= 299) {
-      setEnvironment("Medium Light Level");
-    } else if (lux >= 300) {
-      setEnvironment("Adequate Light Level");
+    if (lux <= 10) {
+      setEnvironment("Low Light Level (Night)");
+      setEnvironmentColor("#14213d");
+    } else if (lux > 10 && lux <= 200) {
+      setEnvironment("Low Light Level (Indoor)");
+      setEnvironmentColor("#023e8a");
+    } else if (lux > 200 && lux <= 700) {
+      setEnvironment("Moderate Light Level (Indoor)");
+      setEnvironmentColor("#0077b6");
+    } else if (lux > 700 && lux <= 1100) {
+      setEnvironment("Moderate Light Level (Cloudy)");
+      setEnvironmentColor("#001d3d");
+    } else {
+      setEnvironment("Adequate Light Level (Sunny)");
+      setEnvironmentColor("#ffd60a");
     }
   }, [lux]);
 
@@ -103,8 +113,8 @@ function StatusCard({ data }) {
 
   const updateStatus = () => {
     //console.log("Changing status", voltage);
-    const pow = parseFloat(power);
-    if (pow < 5) {
+    const pow = parseFloat(voltage);
+    if (pow < 4) {
       setStatus("Non-Optimal");
     } else {
       setStatus("Optimal");
@@ -114,9 +124,8 @@ function StatusCard({ data }) {
   return (
     <div className="StatusCard">
       <h2>
-        Status:{" "}
-        <span className={status === "Optimal" ? "status-good" : "status-bad"}>
-          {status} | <span style={{ color: "orange" }}>{environment}</span>
+        <span>
+          <span style={{ color: environmentColor }}>{environment}</span>
         </span>
       </h2>
       <p id="updated">

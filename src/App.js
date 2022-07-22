@@ -122,24 +122,25 @@ function App() {
 
         if (fetched) {
           const temp = Object.values(fetched.test);
-          const sorted_data = temp.sort((a, b) => {
-            return a.date_time - b.date_time;
-          });
+          const sorted_data = temp.sort(
+            (a, b) =>
+              b.date_time.localeCompare(a.date_time) ||
+              b.date_time.localeCompare(a.date_time)
+          );
+
           console.log("FETCHED: ", sorted_data);
 
-          let data = sorted_data.reverse();
-          // if (data[sorted_data.length - 1].current < 0) {
-          //   let popped = sorted_data.pop();
-          // }
+          let data = sorted_data;
+          let popped = data.pop();
 
           data = data.filter(
-            (item) => item.solar_panel_current > 0 && item.battery_current > 0
+            (item) => item.solar_panel_current >= 0 && item.battery_current >= 0
           );
 
           setSolarData(
             data.map((doc) => ({
               ...doc,
-              lux: doc.lux.toFixed(1),
+              lux: parseFloat(doc.lux).toFixed(2),
               solar_panel_voltage: doc.solar_panel_voltage.toFixed(2),
               solar_panel_current: doc.solar_panel_current.toFixed(2),
               solar_panel_power: (
